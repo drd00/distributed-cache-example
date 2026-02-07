@@ -1,0 +1,27 @@
+# Headless service for pod-to-pod communication
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache-headless
+spec:
+  clusterIP: None
+  selector:
+    app: cache
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+---
+# Regular service for external access
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache
+spec:
+  type: ClusterIP
+  selector:
+    app: cache
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
