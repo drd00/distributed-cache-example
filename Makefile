@@ -4,10 +4,23 @@ DOCKER_IMAGE=distributed-cache-example
 DOCKER_TAG=latest
 K8S_NAMESPACE=default
 
+VENV := .venv
+PY := $(VENV)/bin/python
+PIP := $(VENV)/bin/pip
+PRECOMMIT := $(VENV)/bin/pre-commit
+
 .PHONY: help build run test docker-build docker-push k8s-deploy k8s-delete clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+venv:
+	python3 -m venv $(VENV)
+
+init: venv
+	$(PIP) install -U pip
+	$(PIP) install pre-commit
+	$(PRECOMMIT) install
 
 build: ## Build the Go binary
 	go build -o bin/cache ./cmd/cache

@@ -22,7 +22,7 @@ type HashRing interface {
 
 type HashRingImpl struct {
 	virtualNodes []*node.VirtualNode
-	nodes []*node.Node
+	nodes        []*node.Node
 }
 
 func NewHashRing(nodes []*node.Node) HashRing {
@@ -93,7 +93,7 @@ func (hr *HashRingImpl) assignVirtualNodes() error {
 	// Sort the `virtualNodes` slice in ascending order by hash value
 	sort.Slice(
 		hr.virtualNodes,
-		func (i, j int) bool {
+		func(i, j int) bool {
 			return hr.virtualNodes[i].Hash < hr.virtualNodes[j].Hash
 		},
 	)
@@ -106,4 +106,3 @@ func (hr *HashRingImpl) hash(value string) uint64 {
 	h.Write([]byte(value))
 	return h.Sum64()
 }
-

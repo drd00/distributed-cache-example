@@ -6,7 +6,6 @@ type VirtualNode struct {
 }
 
 type Node struct {
-	Name string
+	Name     string
 	Endpoint string
 }
-
